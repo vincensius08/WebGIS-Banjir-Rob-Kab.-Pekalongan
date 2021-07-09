@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        #map {
+            width: 1187px;
+            height: 791px;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/LahanTerdampakRob_1.js"></script>
+        <script src="data/BatasKecamatan_2.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-6.958170130627745,109.50412653668192],[-6.827560907414907,109.69993476192498]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_OSMStandard_0');
+        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        function pop_LahanTerdampakRob_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KECAMATAN'] !== null ? autolinker.link(feature.properties['KECAMATAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Eksis'] !== null ? autolinker.link(feature.properties['Eksis'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Luas'] !== null ? autolinker.link(feature.properties['Luas'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LahanTerdampakRob_1_0(feature) {
+            switch(String(feature.properties['Eksis'])) {
+                default:
+                    return {
+                pane: 'pane_LahanTerdampakRob_1',
+                opacity: 1,
+                color: 'rgba(153,80,119,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(226,214,123,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Industri':
+                    return {
+                pane: 'pane_LahanTerdampakRob_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(129,129,129,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Kebun':
+                    return {
+                pane: 'pane_LahanTerdampakRob_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(178,223,138,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Lahan Terbuka':
+                    return {
+                pane: 'pane_LahanTerdampakRob_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,252,245,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Permukiman':
+                    return {
+                pane: 'pane_LahanTerdampakRob_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(253,191,111,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Sawah Irigasi':
+                    return {
+                pane: 'pane_LahanTerdampakRob_1',
+                opacity: 1,
+                color: 'rgba(178,223,138,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(11,178,0,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Sungai':
+                    return {
+                pane: 'pane_LahanTerdampakRob_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(177,216,255,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Tambak':
+                    return {
+                pane: 'pane_LahanTerdampakRob_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,106,88,1.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_LahanTerdampakRob_1');
+        map.getPane('pane_LahanTerdampakRob_1').style.zIndex = 401;
+        map.getPane('pane_LahanTerdampakRob_1').style['mix-blend-mode'] = 'normal';
+        var layer_LahanTerdampakRob_1 = new L.geoJson(json_LahanTerdampakRob_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LahanTerdampakRob_1',
+            layerName: 'layer_LahanTerdampakRob_1',
+            pane: 'pane_LahanTerdampakRob_1',
+            onEachFeature: pop_LahanTerdampakRob_1,
+            style: style_LahanTerdampakRob_1_0,
+        });
+        bounds_group.addLayer(layer_LahanTerdampakRob_1);
+        map.addLayer(layer_LahanTerdampakRob_1);
+        function pop_BatasKecamatan_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PROVINSI'] !== null ? autolinker.link(feature.properties['PROVINSI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KECAMATAN'] !== null ? autolinker.link(feature.properties['KECAMATAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KODE_KEC'] !== null ? autolinker.link(feature.properties['KODE_KEC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KODE_KAB'] !== null ? autolinker.link(feature.properties['KODE_KAB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KODE_PROP'] !== null ? autolinker.link(feature.properties['KODE_PROP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KABUPATEN'] !== null ? autolinker.link(feature.properties['KABUPATEN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['laki_laki'] !== null ? autolinker.link(feature.properties['laki_laki'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['perempuan'] !== null ? autolinker.link(feature.properties['perempuan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Kepadatan'] !== null ? autolinker.link(feature.properties['Kepadatan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Luas__Km2_'] !== null ? autolinker.link(feature.properties['Luas__Km2_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Luas_Ha'] !== null ? autolinker.link(feature.properties['Luas_Ha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_BatasKecamatan_2_0() {
+            return {
+                pane: 'pane_BatasKecamatan_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_BatasKecamatan_2');
+        map.getPane('pane_BatasKecamatan_2').style.zIndex = 402;
+        map.getPane('pane_BatasKecamatan_2').style['mix-blend-mode'] = 'normal';
+        var layer_BatasKecamatan_2 = new L.geoJson(json_BatasKecamatan_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_BatasKecamatan_2',
+            layerName: 'layer_BatasKecamatan_2',
+            pane: 'pane_BatasKecamatan_2',
+            onEachFeature: pop_BatasKecamatan_2,
+            style: style_BatasKecamatan_2_0,
+        });
+        bounds_group.addLayer(layer_BatasKecamatan_2);
+        map.addLayer(layer_BatasKecamatan_2);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/BatasKecamatan_2.png" /> Batas Kecamatan': layer_BatasKecamatan_2,'Lahan Terdampak Rob<br /><table><tr><td style="text-align: center;"><img src="legend/LahanTerdampakRob_1_0.png" /></td><td></td></tr><tr><td style="text-align: center;"><img src="legend/LahanTerdampakRob_1_Industri1.png" /></td><td>Industri</td></tr><tr><td style="text-align: center;"><img src="legend/LahanTerdampakRob_1_Kebun2.png" /></td><td>Kebun</td></tr><tr><td style="text-align: center;"><img src="legend/LahanTerdampakRob_1_LahanTerbuka3.png" /></td><td>Lahan Terbuka</td></tr><tr><td style="text-align: center;"><img src="legend/LahanTerdampakRob_1_Permukiman4.png" /></td><td>Permukiman</td></tr><tr><td style="text-align: center;"><img src="legend/LahanTerdampakRob_1_SawahIrigasi5.png" /></td><td>Sawah Irigasi</td></tr><tr><td style="text-align: center;"><img src="legend/LahanTerdampakRob_1_Sungai6.png" /></td><td>Sungai</td></tr><tr><td style="text-align: center;"><img src="legend/LahanTerdampakRob_1_Tambak7.png" /></td><td>Tambak</td></tr></table>': layer_LahanTerdampakRob_1,"OSM Standard": layer_OSMStandard_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>

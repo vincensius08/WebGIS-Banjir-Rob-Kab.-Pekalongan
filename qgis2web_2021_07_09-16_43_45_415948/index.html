@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        #map {
+            width: 800px;
+            height: 700px;
+        }
+        </style>
+        <title>Peta Lokasi</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/LokasiPenelitian_1.js"></script>
+        <script src="data/BatasKecamatan_2.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-6.921814371303063,109.55499839692392],[-6.8442045357762495,109.67135047903597]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_OSMStandard_0');
+        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        function pop_LokasiPenelitian_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PROVINSI'] !== null ? autolinker.link(feature.properties['PROVINSI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KECAMATAN'] !== null ? autolinker.link(feature.properties['KECAMATAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KODE_KEC'] !== null ? autolinker.link(feature.properties['KODE_KEC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KODE_KAB'] !== null ? autolinker.link(feature.properties['KODE_KAB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KODE_PROP'] !== null ? autolinker.link(feature.properties['KODE_PROP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KABUPATEN'] !== null ? autolinker.link(feature.properties['KABUPATEN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Luas (Ha)'] !== null ? autolinker.link(feature.properties['Luas (Ha)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_LokasiPenelitian_1_0(feature) {
+            switch(String(feature.properties['KECAMATAN'])) {
+                case 'Siwalan':
+                    return {
+                pane: 'pane_LokasiPenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.502)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(148,240,95,0.502)',
+                interactive: true,
+            }
+                    break;
+                case 'Tirto':
+                    return {
+                pane: 'pane_LokasiPenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.502)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(220,71,183,0.502)',
+                interactive: true,
+            }
+                    break;
+                case 'Wiradesa':
+                    return {
+                pane: 'pane_LokasiPenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.502)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(104,100,211,0.502)',
+                interactive: true,
+            }
+                    break;
+                case 'Wonokerto':
+                    return {
+                pane: 'pane_LokasiPenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.502)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(62,213,188,0.502)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_LokasiPenelitian_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.502)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,141,71,0.502)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_LokasiPenelitian_1');
+        map.getPane('pane_LokasiPenelitian_1').style.zIndex = 401;
+        map.getPane('pane_LokasiPenelitian_1').style['mix-blend-mode'] = 'normal';
+        var layer_LokasiPenelitian_1 = new L.geoJson(json_LokasiPenelitian_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_LokasiPenelitian_1',
+            layerName: 'layer_LokasiPenelitian_1',
+            pane: 'pane_LokasiPenelitian_1',
+            onEachFeature: pop_LokasiPenelitian_1,
+            style: style_LokasiPenelitian_1_0,
+        });
+        bounds_group.addLayer(layer_LokasiPenelitian_1);
+        map.addLayer(layer_LokasiPenelitian_1);
+        function pop_BatasKecamatan_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PROVINSI'] !== null ? autolinker.link(feature.properties['PROVINSI'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KECAMATAN'] !== null ? autolinker.link(feature.properties['KECAMATAN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KODE_KEC'] !== null ? autolinker.link(feature.properties['KODE_KEC'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KODE_KAB'] !== null ? autolinker.link(feature.properties['KODE_KAB'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KODE_PROP'] !== null ? autolinker.link(feature.properties['KODE_PROP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['KABUPATEN'] !== null ? autolinker.link(feature.properties['KABUPATEN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Leng'] !== null ? autolinker.link(feature.properties['Shape_Leng'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Shape_Area'] !== null ? autolinker.link(feature.properties['Shape_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['laki_laki'] !== null ? autolinker.link(feature.properties['laki_laki'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['perempuan'] !== null ? autolinker.link(feature.properties['perempuan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Kepadatan'] !== null ? autolinker.link(feature.properties['Kepadatan'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Luas__Km2_'] !== null ? autolinker.link(feature.properties['Luas__Km2_'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Luas_Ha'] !== null ? autolinker.link(feature.properties['Luas_Ha'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_BatasKecamatan_2_0() {
+            return {
+                pane: 'pane_BatasKecamatan_2',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_BatasKecamatan_2');
+        map.getPane('pane_BatasKecamatan_2').style.zIndex = 402;
+        map.getPane('pane_BatasKecamatan_2').style['mix-blend-mode'] = 'normal';
+        var layer_BatasKecamatan_2 = new L.geoJson(json_BatasKecamatan_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_BatasKecamatan_2',
+            layerName: 'layer_BatasKecamatan_2',
+            pane: 'pane_BatasKecamatan_2',
+            onEachFeature: pop_BatasKecamatan_2,
+            style: style_BatasKecamatan_2_0,
+        });
+        bounds_group.addLayer(layer_BatasKecamatan_2);
+        map.addLayer(layer_BatasKecamatan_2);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/BatasKecamatan_2.png" /> Batas Kecamatan': layer_BatasKecamatan_2,'LokasiPenelitian<br /><table><tr><td style="text-align: center;"><img src="legend/LokasiPenelitian_1_Siwalan0.png" /></td><td>Siwalan</td></tr><tr><td style="text-align: center;"><img src="legend/LokasiPenelitian_1_Tirto1.png" /></td><td>Tirto</td></tr><tr><td style="text-align: center;"><img src="legend/LokasiPenelitian_1_Wiradesa2.png" /></td><td>Wiradesa</td></tr><tr><td style="text-align: center;"><img src="legend/LokasiPenelitian_1_Wonokerto3.png" /></td><td>Wonokerto</td></tr><tr><td style="text-align: center;"><img src="legend/LokasiPenelitian_1_4.png" /></td><td></td></tr></table>': layer_LokasiPenelitian_1,"OSM Standard": layer_OSMStandard_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_LokasiPenelitian_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['KECAMATAN'] !== null?String('<div style="color: #000000; font-size: 15pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['KECAMATAN']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_LokasiPenelitian_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer_LokasiPenelitian_1]);
+        map.on("zoomend", function(){
+            resetLabels([layer_LokasiPenelitian_1]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_LokasiPenelitian_1]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_LokasiPenelitian_1]);
+        });
+        </script>
+    </body>
+</html>
